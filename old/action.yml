@@ -1,0 +1,9 @@
+name: 'Changelog auto for release/hotfix PR'
+description: 'Injecte un changelog auto dans les PR manuelles release/*'
+inputs:
+  github_token:
+    required: true
+    description: GitHub Token
+runs:
+  using: "node16"
+  main: "dist/index.js"

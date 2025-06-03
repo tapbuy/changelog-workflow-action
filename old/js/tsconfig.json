@@ -3,11 +3,11 @@
   "compilerOptions": {
     "lib": ["es2022", "DOM"],
     "outDir": "dist",
-    "rootDir": "./src",
+    "rootDir": "old/js/src",
     "esModuleInterop": true,
     "moduleResolution": "node16",
     "module": "Node16",
     "noEmit": true
   },
-  "include": ["./src/**/*"]
+  "include": ["old/js/src/**/*"]
 }

@@ -1,9 +1,14 @@
-name: 'Changelog auto for release/hotfix PR'
-description: 'Injecte un changelog auto dans les PR manuelles release/*'
-inputs:
-  github_token:
-    required: true
-    description: GitHub Token
+name: "Changelog Generator"
+description: "Generates and injects changelog into release/hotfix PRs"
+author: "Tapbuy"
+
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: "composite"
+  steps:
+    - run: |
+        python3 -m pip install --upgrade pip requests
+
+        # Appel explicite depuis le dossier du repo appelant (PR)
+        python3 -c "import sys; sys.path.insert(0, '${{ github.action_path }}'); import run"
+      shell: bash
+      working-directory: ${{ github.workspace }}
