@@ -3,6 +3,7 @@
 This project is a fork of this project: https://github.com/tapbuy/gitflow-workflow-action
 
 A GitHub actions that automate the changelog on release and hotfix.
+It is used by **tapbuy-api** and **tapbuy-webapp**.
 
 ## Usage
 
