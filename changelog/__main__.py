@@ -26,8 +26,9 @@ def run():
     pr = fetch_pr_metadata(REPO_OWNER, REPO_NAME, PR_NUMBER, headers)
     head_branch = pr.get("head", {}).get("ref")
     base_branch = pr.get("base", {}).get("ref")
+    head_sha = pr.get("head", {}).get("sha")
 
-    if not head_branch or not base_branch:
+    if not head_branch or not base_branch or not head_sha:
         print("❌ Invalid PR metadata")
         sys.exit(1)
 
@@ -36,17 +37,17 @@ def run():
         sys.exit(0)
 
     latest_tag = get_tags()
-    current_tag = "HEAD"
+    current_tag = head_sha
     compare_url = f"https://github.com/{REPO_OWNER}/{REPO_NAME}/compare/{latest_tag}...{current_tag}"
     version = head_branch.split("/")[-1]
 
     if head_branch.startswith("hotfix/"):
         print(f"🛠 Running hotfix changelog formatter for branch: {head_branch}")
         print("📄 Using: formatter_hotfix.py")
-        body = format_hotfix_changelog(latest_tag, "HEAD", version, compare_url)
+        body = format_hotfix_changelog(latest_tag, head_sha, version, compare_url)
     else:
         print(f"🚀 Running release changelog formatter for branch: {head_branch}")
         print("📄 Using: formatter_release.py")
-        body = format_release_changelog(REPO_OWNER, REPO_NAME, latest_tag, "HEAD", version, compare_url, headers)
+        body = format_release_changelog(REPO_OWNER, REPO_NAME, latest_tag, head_sha, version, compare_url, headers)
 
     patch_pr_body(REPO_OWNER, REPO_NAME, PR_NUMBER, body, headers)
